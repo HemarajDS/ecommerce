@@ -11,6 +11,7 @@ Mercora Commerce is a portfolio-ready microservices platform for enterprise e-co
 
 ## Planned Modules
 
+
 ```text
 mercora-commerce/
 ├── api-gateway/
