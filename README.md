@@ -1,8 +1,8 @@
 # Mercora Commerce
 
-Mercora Commerce is a portfolio-ready microservices platform for enterprise e-commerce, dealer distribution, and CMS management. This repository starts with the Phase 1 foundation: centralized config, service discovery, API gateway, and authentication.
+Mercora Commerce is a portfolio-ready microservices platform for enterprise e-commerce, dealer distribution, and CMS management. The backend is organized as a Spring Boot microservices monorepo and currently includes the full backend service set from the project plan.
 
-## Phase 1 Services
+## Current Backend Scope
 
 - `config-server`: Spring Cloud Config Server with native repository support
 - `discovery-server`: Eureka server for service registration and discovery
@@ -17,38 +17,52 @@ Mercora Commerce is a portfolio-ready microservices platform for enterprise e-co
 - `notification-service`: event-driven email, SMS, in-app notification history, and preference management
 - `cms-service`: page, section, SEO, version history, and draft-to-publish workflow scaffolding
 
-## Planned Modules
-
+## Repository Layout
 
 ```text
-mercora-commerce/
-├── api-gateway/
-├── auth-service/
-├── product-service/
-├── inventory-service/
-├── cart-service/
-├── order-service/
-├── payment-service/
-├── dealer-service/
-├── notification-service/
-├── cms-service/
-├── config-server/
-├── discovery-server/
-├── frontend/
-├── docker-compose.yml
-└── README.md
+.
+|-- api-gateway/
+|-- auth-service/
+|-- cart-service/
+|-- cms-service/
+|-- config-server/
+|-- dealer-service/
+|-- discovery-server/
+|-- frontend/
+|-- inventory-service/
+|-- notification-service/
+|-- order-service/
+|-- payment-service/
+|-- product-service/
+|-- .github/
+|-- docker-compose.yml
+|-- pom.xml
+`-- README.md
 ```
+
+## Verification Status
+
+- Java 17 verified locally
+- Apache Maven 3.9.6 installed locally for verification
+- Multi-module backend `mvn -ntp test` completed successfully on March 29, 2026
+- Current unit tests pass across all backend modules
 
 ## Local Run Order
 
-1. Start MongoDB and Redis.
-2. Run `config-server`.
-3. Run `discovery-server`.
-4. Run `api-gateway`.
-5. Run `auth-service`.
+1. Start infrastructure from `docker-compose.yml`.
+2. Start `config-server`.
+3. Start `discovery-server`.
+4. Start `api-gateway`.
+5. Start downstream services as needed.
+
+## Notes
+
+- The backend currently compiles and passes the existing unit tests.
+- Several integrations are scaffolded and portfolio-ready, but some production-grade external integrations still need deeper implementation.
+- The frontend is not built yet.
 
 ## Next Steps
 
-- Build the React frontend and connect the current APIs.
-- Add shared logging and correlation ID propagation across downstream services.
-- Run a full compile and integration pass once Maven is available.
+- Build the React frontend for customer, admin, and dealer portals
+- Add stronger integration tests and richer service-to-service verification
+- Tighten shared event contracts and production hardening

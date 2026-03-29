@@ -1,0 +1,27 @@
+# Build output
+target/
+build/
+out/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Local tools and caches
+tools/
+
+# Environment files
+.env
+.env.*
+
+# Local duplicate scaffold folder created during setup troubleshooting
+mercora-commerce/
