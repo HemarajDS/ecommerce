@@ -1,0 +1,27 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: inventory-service
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/mercora_inventory}
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+mercora:
+  inventory:
+    low-stock-topic: inventory.low
+    order-placed-topic: order.placed
+    reservation-ttl-minutes: 15
+    lock-ttl-seconds: 15
+    default-safety-stock: 5
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://localhost:8761/eureka}

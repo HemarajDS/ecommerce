@@ -8,6 +8,10 @@ Mercora Commerce is a portfolio-ready microservices platform for enterprise e-co
 - `discovery-server`: Eureka server for service registration and discovery
 - `api-gateway`: request routing, CORS, correlation IDs, Redis-backed rate limiting, and JWT validation
 - `auth-service`: registration, login, refresh token flow, MongoDB persistence, Redis token storage, and audit logs
+- `product-service`: catalog CRUD, brand/category hierarchy, flexible attributes, filters, pagination, and Kafka product events
+- `inventory-service`: warehouse stock, batch tracking, reservation lifecycle, low-stock alerts, and order-driven stock allocation hooks
+- `cart-service`: Redis-backed carts, coupon handling, checkout repricing, and payment-session initiation scaffolding
+- `order-service`: order creation, lifecycle transitions, timeline history, Kafka integration, and WebSocket-ready status updates
 
 ## Planned Modules
 
@@ -41,6 +45,6 @@ mercora-commerce/
 
 ## Next Steps
 
-- Build the Product Service with category, brand, SKU, and search support.
+- Build the Payment Service with gateway integration and webhook-safe processing.
 - Add shared logging and correlation ID propagation across downstream services.
-- Bring in Docker Compose orchestration for the whole Phase 1 stack.
+- Expand Docker Compose to run the remaining business services.

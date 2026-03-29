@@ -15,6 +15,22 @@ spring:
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/api/v1/auth/**
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/v1/products/**, /api/v1/catalog/**
+        - id: inventory-service
+          uri: lb://INVENTORY-SERVICE
+          predicates:
+            - Path=/api/v1/inventory/**
+        - id: cart-service
+          uri: lb://CART-SERVICE
+          predicates:
+            - Path=/api/v1/cart/**, /api/v1/checkout/**
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/v1/orders/**, /ws/orders/**
 
 mercora:
   gateway:
@@ -34,4 +50,4 @@ spring.security.oauth2.resourceserver.jwt.secret: ${MERCORA_JWT_SECRET:mercora-d
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://localhost:8761/eureka}

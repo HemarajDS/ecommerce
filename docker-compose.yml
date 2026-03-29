@@ -15,5 +15,138 @@ services:
     ports:
       - "6379:6379"
 
+  kafka:
+    image: bitnami/kafka:3.7
+    container_name: mercora-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_CFG_NODE_ID: 1
+      KAFKA_CFG_PROCESS_ROLES: controller,broker
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+
+  config-server:
+    build:
+      context: ./config-server
+    container_name: mercora-config-server
+    ports:
+      - "8888:8888"
+
+  discovery-server:
+    build:
+      context: ./discovery-server
+    container_name: mercora-discovery-server
+    ports:
+      - "8761:8761"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+    depends_on:
+      - config-server
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: mercora-api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      EUREKA_DEFAULT_ZONE: http://discovery-server:8761/eureka
+    depends_on:
+      - redis
+      - config-server
+      - discovery-server
+
+  auth-service:
+    build:
+      context: ./auth-service
+    container_name: mercora-auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      EUREKA_DEFAULT_ZONE: http://discovery-server:8761/eureka
+      MONGODB_URI: mongodb://mongodb:27017/mercora_auth
+      REDIS_HOST: redis
+    depends_on:
+      - mongodb
+      - redis
+      - config-server
+      - discovery-server
+
+  product-service:
+    build:
+      context: ./product-service
+    container_name: mercora-product-service
+    ports:
+      - "8082:8082"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      EUREKA_DEFAULT_ZONE: http://discovery-server:8761/eureka
+      MONGODB_URI: mongodb://mongodb:27017/mercora_catalog
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - mongodb
+      - kafka
+      - config-server
+      - discovery-server
+
+  inventory-service:
+    build:
+      context: ./inventory-service
+    container_name: mercora-inventory-service
+    ports:
+      - "8083:8083"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      EUREKA_DEFAULT_ZONE: http://discovery-server:8761/eureka
+      MONGODB_URI: mongodb://mongodb:27017/mercora_inventory
+      REDIS_HOST: redis
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - mongodb
+      - redis
+      - kafka
+      - config-server
+      - discovery-server
+
+  cart-service:
+    build:
+      context: ./cart-service
+    container_name: mercora-cart-service
+    ports:
+      - "8084:8084"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      EUREKA_DEFAULT_ZONE: http://discovery-server:8761/eureka
+      REDIS_HOST: redis
+    depends_on:
+      - redis
+      - config-server
+      - discovery-server
+
+  order-service:
+    build:
+      context: ./order-service
+    container_name: mercora-order-service
+    ports:
+      - "8085:8085"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      EUREKA_DEFAULT_ZONE: http://discovery-server:8761/eureka
+      MONGODB_URI: mongodb://mongodb:27017/mercora_orders
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - mongodb
+      - kafka
+      - config-server
+      - discovery-server
+
 volumes:
   mongo_data:

@@ -16,6 +16,10 @@
         <module>discovery-server</module>
         <module>api-gateway</module>
         <module>auth-service</module>
+        <module>product-service</module>
+        <module>inventory-service</module>
+        <module>cart-service</module>
+        <module>order-service</module>
     </modules>
 
     <properties>
