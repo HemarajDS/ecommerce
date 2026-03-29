@@ -12,6 +12,10 @@ Mercora Commerce is a portfolio-ready microservices platform for enterprise e-co
 - `inventory-service`: warehouse stock, batch tracking, reservation lifecycle, low-stock alerts, and order-driven stock allocation hooks
 - `cart-service`: Redis-backed carts, coupon handling, checkout repricing, and payment-session initiation scaffolding
 - `order-service`: order creation, lifecycle transitions, timeline history, Kafka integration, and WebSocket-ready status updates
+- `payment-service`: payment intents, idempotent request handling, webhook processing, and payment lifecycle events
+- `dealer-service`: dealer onboarding, PO validation, credit and quota checks, approvals, and ledger tracking
+- `notification-service`: event-driven email, SMS, in-app notification history, and preference management
+- `cms-service`: page, section, SEO, version history, and draft-to-publish workflow scaffolding
 
 ## Planned Modules
 
@@ -45,6 +49,6 @@ mercora-commerce/
 
 ## Next Steps
 
-- Build the Payment Service with gateway integration and webhook-safe processing.
+- Build the React frontend and connect the current APIs.
 - Add shared logging and correlation ID propagation across downstream services.
-- Expand Docker Compose to run the remaining business services.
+- Run a full compile and integration pass once Maven is available.

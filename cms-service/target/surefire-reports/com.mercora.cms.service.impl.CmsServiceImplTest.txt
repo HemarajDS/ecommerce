@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.mercora.cms.service.impl.CmsServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.690 s -- in com.mercora.cms.service.impl.CmsServiceImplTest

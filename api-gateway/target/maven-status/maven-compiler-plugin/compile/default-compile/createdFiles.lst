@@ -1,0 +1,8 @@
+com\mercora\gateway\ApiGatewayApplication.class
+com\mercora\gateway\config\GatewayProperties.class
+com\mercora\gateway\filter\RateLimitFilter.class
+com\mercora\gateway\filter\JwtAuthenticationFilter.class
+com\mercora\gateway\config\GatewayProperties$RateLimit.class
+com\mercora\gateway\config\GatewayConfig.class
+com\mercora\gateway\filter\CorrelationIdFilter.class
+com\mercora\gateway\config\JwtProperties.class

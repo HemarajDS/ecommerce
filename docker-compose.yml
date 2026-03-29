@@ -148,5 +148,77 @@ services:
       - config-server
       - discovery-server
 
+  payment-service:
+    build:
+      context: ./payment-service
+    container_name: mercora-payment-service
+    ports:
+      - "8086:8086"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      EUREKA_DEFAULT_ZONE: http://discovery-server:8761/eureka
+      MONGODB_URI: mongodb://mongodb:27017/mercora_payments
+      REDIS_HOST: redis
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - mongodb
+      - redis
+      - kafka
+      - config-server
+      - discovery-server
+
+  dealer-service:
+    build:
+      context: ./dealer-service
+    container_name: mercora-dealer-service
+    ports:
+      - "8087:8087"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      EUREKA_DEFAULT_ZONE: http://discovery-server:8761/eureka
+      MONGODB_URI: mongodb://mongodb:27017/mercora_dealers
+      REDIS_HOST: redis
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - mongodb
+      - redis
+      - kafka
+      - config-server
+      - discovery-server
+
+  notification-service:
+    build:
+      context: ./notification-service
+    container_name: mercora-notification-service
+    ports:
+      - "8088:8088"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      EUREKA_DEFAULT_ZONE: http://discovery-server:8761/eureka
+      MONGODB_URI: mongodb://mongodb:27017/mercora_notifications
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      EMAIL_ENABLED: "false"
+      SMS_ENABLED: "false"
+    depends_on:
+      - mongodb
+      - kafka
+      - config-server
+      - discovery-server
+
+  cms-service:
+    build:
+      context: ./cms-service
+    container_name: mercora-cms-service
+    ports:
+      - "8089:8089"
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      EUREKA_DEFAULT_ZONE: http://discovery-server:8761/eureka
+      MONGODB_URI: mongodb://mongodb:27017/mercora_cms
+    depends_on:
+      - mongodb
+      - config-server
+      - discovery-server
+
 volumes:
   mongo_data:

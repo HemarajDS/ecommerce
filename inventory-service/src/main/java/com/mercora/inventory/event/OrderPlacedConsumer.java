@@ -1,6 +1,7 @@
 package com.mercora.inventory.event;
 
 import com.mercora.inventory.dto.OrderPlacedEvent;
+import com.mercora.inventory.dto.OrderPlacedItem;
 import com.mercora.inventory.dto.ReserveStockRequest;
 import com.mercora.inventory.service.InventoryService;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -17,11 +18,16 @@ public class OrderPlacedConsumer {
 
     @KafkaListener(topics = "${mercora.inventory.order-placed-topic}", groupId = "inventory-service")
     public void handleOrderPlaced(OrderPlacedEvent event) {
-        inventoryService.reserveStock(new ReserveStockRequest(
-                event.orderId(),
-                event.productId(),
-                event.sku(),
-                event.warehouseCode(),
-                event.quantity()));
+        if (event.items() == null) {
+            return;
+        }
+        for (OrderPlacedItem item : event.items()) {
+            inventoryService.reserveStock(new ReserveStockRequest(
+                    event.orderId(),
+                    item.productId(),
+                    item.sku(),
+                    item.warehouseCode() == null || item.warehouseCode().isBlank() ? "DEFAULT" : item.warehouseCode(),
+                    item.quantity()));
+        }
     }
 }

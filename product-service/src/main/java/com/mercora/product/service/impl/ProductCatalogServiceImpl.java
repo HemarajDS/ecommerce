@@ -5,6 +5,7 @@ import com.mercora.product.dto.BrandResponse;
 import com.mercora.product.dto.CategoryRequest;
 import com.mercora.product.dto.CategoryResponse;
 import com.mercora.product.dto.PageResponse;
+import com.mercora.product.dto.ProductPriceResponse;
 import com.mercora.product.dto.ProductRequest;
 import com.mercora.product.dto.ProductResponse;
 import com.mercora.product.dto.ProductSearchRequest;
@@ -142,6 +143,23 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
         return productRepository.findById(productId)
                 .map(this::toProductResponse)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+    }
+
+    @Override
+    public ProductPriceResponse getProductPrice(String productId, String sku) {
+        ProductDocument product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        ProductVariant variant = product.getVariants() == null ? null : product.getVariants().stream()
+                .filter(entry -> entry.getSku().equalsIgnoreCase(sku))
+                .findFirst()
+                .orElse(null);
+
+        if (variant == null) {
+            throw new ResourceNotFoundException("Product variant not found");
+        }
+
+        return new ProductPriceResponse(product.getId(), variant.getSku(), variant.getName(), variant.getRetailPrice());
     }
 
     @Override

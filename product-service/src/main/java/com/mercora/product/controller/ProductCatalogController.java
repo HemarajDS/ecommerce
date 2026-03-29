@@ -5,6 +5,7 @@ import com.mercora.product.dto.BrandResponse;
 import com.mercora.product.dto.CategoryRequest;
 import com.mercora.product.dto.CategoryResponse;
 import com.mercora.product.dto.PageResponse;
+import com.mercora.product.dto.ProductPriceResponse;
 import com.mercora.product.dto.ProductRequest;
 import com.mercora.product.dto.ProductResponse;
 import com.mercora.product.dto.ProductSearchRequest;
@@ -79,6 +80,12 @@ public class ProductCatalogController {
     @Operation(summary = "Get a product by ID")
     public ProductResponse getProduct(@PathVariable String productId) {
         return productCatalogService.getProduct(productId);
+    }
+
+    @GetMapping("/products/{productId}/price")
+    @Operation(summary = "Get live product pricing for a specific SKU")
+    public ProductPriceResponse getProductPrice(@PathVariable String productId, @RequestParam String sku) {
+        return productCatalogService.getProductPrice(productId, sku);
     }
 
     @GetMapping("/products")

@@ -3,6 +3,7 @@ package com.mercora.order.event;
 import com.mercora.order.config.OrderProperties;
 import com.mercora.order.model.OrderDocument;
 import com.mercora.order.model.OrderStatus;
+import java.util.List;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,16 @@ public class OrderEventPublisher {
     }
 
     private OrderEvent event(String type, OrderDocument order) {
-        return new OrderEvent(type, order.getId(), order.getOrderNumber(), order.getUserId(), order.getStatus(), java.time.Instant.now());
+        List<OrderEventItem> items = order.getItems().stream()
+                .map(item -> new OrderEventItem(item.getProductId(), item.getSku(), item.getQuantity(), "DEFAULT"))
+                .toList();
+        return new OrderEvent(
+                type,
+                order.getId(),
+                order.getOrderNumber(),
+                order.getUserId(),
+                order.getStatus().name(),
+                items,
+                java.time.Instant.now());
     }
 }

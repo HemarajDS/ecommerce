@@ -1,0 +1,34 @@
+{
+  "groups": [
+    {
+      "name": "mercora.cart",
+      "type": "com.mercora.cart.config.CartProperties",
+      "sourceType": "com.mercora.cart.config.CartProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "mercora.cart.cart-ttl-minutes",
+      "type": "java.lang.Long",
+      "sourceType": "com.mercora.cart.config.CartProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "mercora.cart.checkout-expiry-minutes",
+      "type": "java.lang.Long",
+      "sourceType": "com.mercora.cart.config.CartProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "mercora.cart.coupon-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.mercora.cart.config.CartProperties"
+    },
+    {
+      "name": "mercora.cart.payment-session-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.mercora.cart.config.CartProperties"
+    }
+  ],
+  "hints": []
+}

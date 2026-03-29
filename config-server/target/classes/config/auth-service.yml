@@ -1,0 +1,25 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/mercora_auth}
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+mercora:
+  auth:
+    access-token-minutes: 15
+    refresh-token-days: 7
+    jwt-secret: ${MERCORA_JWT_SECRET:mercora-development-secret-key-mercora-development-secret-key}
+    otp-ttl-minutes: 10
+    max-failed-logins: 5
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://localhost:8761/eureka}
